@@ -1,7 +1,7 @@
 package com.challenge.client.controller;
 
 import com.challenge.client.dto.in.ClientRequest;
-import com.challenge.client.service.ClientService;
+import com.challenge.client.service.CrudClientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/client")
 public class ClientCrudController {
 
-    ClientService clientService;
+    CrudClientService crudClientService;
 
     @RequestMapping(method = RequestMethod.POST, path = "/create")
     public ResponseEntity<String> createClient(@RequestBody @Validated ClientRequest clientRequest) {
-        clientService.createClient(clientRequest);
+        crudClientService.createClient(clientRequest);
         return ResponseEntity.ok("client created");
     }
-    
-
 }
+

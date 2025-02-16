@@ -1,6 +1,6 @@
 package com.challenge.client.controller;
 
-import com.challenge.client.service.ClientService;
+import com.challenge.client.service.ClientEventCalculationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ClientEventCalculationController {
 
-    ClientService clientService;
+    ClientEventCalculationService clientEventCalculationService;
 
     @GetMapping("/life-expectancy")
     public ResponseEntity<String> calculateLifeExpectancy() {
-        return ResponseEntity.ok(clientService.calculateLifeExpectancy());
+        return ResponseEntity.ok(clientEventCalculationService.calculateLifeExpectancy());
     }
 }
