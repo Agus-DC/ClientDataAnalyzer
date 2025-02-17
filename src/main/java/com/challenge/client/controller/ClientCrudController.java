@@ -1,7 +1,8 @@
 package com.challenge.client.controller;
 
 import com.challenge.client.dto.in.ClientRequest;
-import com.challenge.client.service.CrudClientService;
+import com.challenge.client.service.CrudClient;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/client")
+@AllArgsConstructor
 public class ClientCrudController {
 
-    CrudClientService crudClientService;
+    CrudClient crudClientService;
 
     @RequestMapping(method = RequestMethod.POST, path = "/create")
     public ResponseEntity<String> createClient(@RequestBody @Validated ClientRequest clientRequest) {
