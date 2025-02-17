@@ -1,4 +1,4 @@
-package com.challenge.client;
+package com.challenge.client.config;
 
 import lombok.experimental.UtilityClass;
 import java.util.Arrays;

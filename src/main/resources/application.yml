@@ -1,4 +1,10 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-auhauqq5i6c4jjz6.us.auth0.com/
+          audience: https://clientapi
   application:
     name: client
   main:
