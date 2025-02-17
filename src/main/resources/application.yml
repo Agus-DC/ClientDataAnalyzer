@@ -5,6 +5,11 @@ spring:
         jwt:
           issuer-uri: https://dev-auhauqq5i6c4jjz6.us.auth0.com/
           audience: https://clientapi
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
   application:
     name: client
   main:
