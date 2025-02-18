@@ -1,6 +1,5 @@
 package com.challenge.client.controller;
 
-import com.challenge.client.dto.out.ClientStatistic;
 import com.challenge.client.service.ClientStatistics;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,14 +8,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/client/statistics")
+@RequestMapping("/clients/statistics")
 @AllArgsConstructor
 public class ClientStatisticsController {
 
     ClientStatistics clientStatisticsService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<ClientStatistic> getUserStatistics() {
-        return ResponseEntity.ok(clientStatisticsService.calculateStatistics());
+    @RequestMapping(method = RequestMethod.GET, path = "/age/average")
+    public ResponseEntity<Double> getClientAgeAverage() {
+        return ResponseEntity.ok(clientStatisticsService.getClientAgeAverage());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/age/standard-deviation")
+    public ResponseEntity<Double> getClientAgeStandardDeviation() {
+        return ResponseEntity.ok(clientStatisticsService.getClientAgeStandardDeviation());
     }
 }

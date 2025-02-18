@@ -1,9 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://random-rds.amazonaws.com:5432/clientes
-    username: user
-    password: pass
+    url: jdbc:postgresql://client-db.cj00g6qk8y29.us-east-2.rds.amazonaws.com:5432/clientdb
+    username: username
+    password: password
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate
-    show-sql: false
+      ddl-auto: update
+    show-sql: true
