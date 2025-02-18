@@ -1,16 +1,17 @@
 package com.challenge.client.service;
 
+import static com.challenge.client.exception.ExceptionMessage.FAIL_TO_SAVE_CLIENT_ENTITY;
+import static com.challenge.client.exception.ExceptionMessage.FAIL_TO_SEND_CLIENT_DATA;
+
 import com.challenge.client.dto.in.ClientRequest;
-import com.challenge.client.dto.out.ClientResponse;
 import com.challenge.client.dto.out.Message;
+import com.challenge.client.exception.SaveEntityFailException;
+import com.challenge.client.exception.SendMessageFailException;
 import com.challenge.client.model.Client;
 import com.challenge.client.queue.QueueProducer;
 import com.challenge.client.repository.ClientRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
@@ -24,15 +25,30 @@ public class ClientCommand {
 
     public void createClient(ClientRequest clientRequest) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
         Client client = mapper.map(clientRequest, Client.class);
 
-        clientRepository.save(client);
+        dataBaseSaveClient(client);
 
+        queueSendClient(client);
+    }
+
+    private void dataBaseSaveClient(Client client) {
         try {
-            queueProducer.sendMessage(objectMapper.writeValueAsString(mapper.map(client, Message.class)));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            clientRepository.save(client);
+        } catch (Exception e) {
+            throw new SaveEntityFailException(FAIL_TO_SAVE_CLIENT_ENTITY.getValue() + ": " + e.getMessage());
+        }
+    }
+
+    private void queueSendClient(Client client) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            queueProducer.sendMessage(
+                    objectMapper.writeValueAsString(
+                            mapper.map(client, Message.class)
+                    ));
+        } catch (Exception e) {
+            throw new SendMessageFailException(FAIL_TO_SEND_CLIENT_DATA.getValue() + ": " + e.getMessage());
         }
     }
 
