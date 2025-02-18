@@ -1,6 +1,8 @@
 package com.challenge.client.repository;
 
 import com.challenge.client.model.Client;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,4 +16,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query(value = "SELECT STDDEV(age) FROM Client", nativeQuery = true)
     Double getStandardDeviation();
 
+    Page<Client> findAll(Pageable pageable);
 }

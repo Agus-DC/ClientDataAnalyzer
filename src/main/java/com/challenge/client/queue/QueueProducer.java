@@ -1,4 +1,4 @@
-package com.challenge.client.service;
+package com.challenge.client.queue;
 
 public interface QueueProducer {
     void sendMessage(String message);

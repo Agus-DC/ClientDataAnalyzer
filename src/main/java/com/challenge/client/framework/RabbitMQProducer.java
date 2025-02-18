@@ -1,7 +1,7 @@
 package com.challenge.client.framework;
 
 import com.challenge.client.config.RabbitMQConfig;
-import com.challenge.client.service.QueueProducer;
+import com.challenge.client.queue.QueueProducer;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
