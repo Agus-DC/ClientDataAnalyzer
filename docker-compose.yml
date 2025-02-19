@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  postgres:
+    build:
+      dockerfile: "Dockerfile_db"
+      context: .
+      args:
+        - INITIAL_DATA_FILE=${INITIAL_DATA_FILE}
+    restart: always
+    container_name: client-db
+    volumes:
+      - ./scripts/postgres:/docker-entrypoint-initdb.d/
+      - ./env/postgres/data/:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: client-db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+  springboot-app:
+    depends_on:
+      - postgres
+    build: .
+    container_name: springboot-app
+    ports:
+      - "8080:8080"  # Mapear el puerto 8080 del contenedor al puerto 8080 en el host
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev  # Aquí puedes agregar cualquier variable de entorno que necesite tu app
+

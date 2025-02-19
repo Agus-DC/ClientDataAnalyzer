@@ -1,0 +1,5 @@
+FROM postgres:12
+
+ARG INITIAL_DATA_FILE
+COPY ./env/postgres/$INITIAL_DATA_FILE /docker-entrypoint-initdb.d/$INITIAL_DATA_FILE
+COPY ./scripts/postgres /docker-entrypoint-initdb.d/
