@@ -11,17 +11,25 @@ import com.challenge.client.model.Client;
 import com.challenge.client.queue.QueueProducer;
 import com.challenge.client.repository.ClientRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
 @Service
-@AllArgsConstructor
 public class ClientCommand {
 
     ModelMapper mapper;
     ClientRepository clientRepository;
     QueueProducer queueProducer;
+    ObjectMapper objectMapper;
+
+    public ClientCommand(ModelMapper mapper, ClientRepository clientRepository, QueueProducer queueProducer) {
+        this.mapper = mapper;
+        this.clientRepository = clientRepository;
+        this.queueProducer = queueProducer;
+        this.objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     public void createClient(ClientRequest clientRequest) {
 
@@ -41,7 +49,6 @@ public class ClientCommand {
     }
 
     private void queueSendClient(Client client) {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
             queueProducer.sendMessage(
                     objectMapper.writeValueAsString(
